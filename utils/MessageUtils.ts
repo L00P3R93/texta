@@ -1,41 +1,32 @@
-export interface MessageShape {
-    id: number;
-    type: "text" | "image" | "location";
-    text?: string;
-    uri?: string;
-    coordinate?: Coordinate;
+import { MessageShape, Coordinate } from "./types";
+
+let messageId: number = 0;
+
+function getNextId(): number {
+    messageId += 1
+    return messageId;
 };
 
-export interface Coordinate {
-    latitude: number;
-    longitude: number;
+export function createTextMessage(text: string): MessageShape {
+    return {
+        type: "text",
+        id: getNextId(),
+        text
+    };
 };
 
-export interface GridRenderItem {
-    index: number;
-    item: { uri: string };
-    size: number;
-    marginTop: number;
-    marginLeft: number;
+export function createImageMessage(uri: string): MessageShape {
+    return {
+        type: "image",
+        id: getNextId(),
+        uri
+    };
 };
 
-export interface ImageType {
-    uri: string;
-    height: number;
-    width: number;
-    isStored?: boolean;
-    playableDuration?: number;
-};
-
-export interface Layout {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-};
-
-export enum INPUT_METHOD {
-    NONE,
-    KEYBOARD,
-    CUSTOM
+export function createLocationMessage(coordinate: Coordinate): MessageShape {
+    return {
+        type: "location",
+        id: getNextId(),
+        coordinate
+    }
 }
